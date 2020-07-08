@@ -1,37 +1,61 @@
+'use-strict';
+
 import React from 'react';
 // eslint-disable-next-line prettier/prettier
-import { SafeAreaView, StyleSheet, View, TextInput, Button } from 'react-native';
-
+import { StyleSheet, View, TextInput, Button } from 'react-native';
+import getResults from '../services/RetrieveResultService';
+var _defaultEditText = 'Search';
 export default function App() {
-  <SafeAreaView>
-    <View style={styles.searchViewContainerStyle}>
-      <TextInput defaultValue="Search" />
-      <Button
-        style={styles.searchButtonStyle}
-        onPress={() => {
-          console.log('Clicked');
-        }}>
-        Search
-      </Button>
+  return (
+    <View style={styles.screenContainerStyle}>
+      <View style={styles.searchViewContainerStyle}>
+        <TextInput
+          style={styles.textInputStyle}
+          defaultValue={_defaultEditText}
+          multiline={true}
+          onChangeText={(Text) => (_defaultEditText = Text)}
+        />
+        <Button
+          title="Submit"
+          color="red"
+          onPress={() => {
+            getResults(_defaultEditText);
+          }}
+        />
+      </View>
+      <View style={styles.searchResultsContainerStyle} />
     </View>
-  </SafeAreaView>;
+  );
 }
 
 const styles = StyleSheet.create({
-  searchViewContainerStyle: {
-    fontSize: 10,
+  screenContainerStyle: {
     flex: 1,
-    flexDirection: 'row',
+    marginTop: 30,
+    marginEnd: 5,
+    marginStart: 5,
   },
-  searchButtonStyle: {
-    fontSize: 15,
-    color: 'blue',
+  searchViewContainerStyle: {
+    flex: 1,
+    fontSize: 10,
+    flexDirection: 'row',
+    textAlignVertical: 'top',
+  },
+  textInputStyle: {
+    flex: 5,
+    fontSize: 12,
+    textAlign: 'center',
+    borderColor: 'black',
+    flexWrap: 'wrap',
+    borderWidth: 0.5,
   },
   searchResultsContainerStyle: {
-    flex: 5,
+    flex: 16,
     justifyContent: 'center',
+    backgroundColor: 'red',
   },
   resultsBoxStyle: {
     justifyContent: 'center',
+    flexDirection: 'row',
   },
 });
