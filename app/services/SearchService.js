@@ -17,15 +17,23 @@ export default async function getResults(query) {
     results = await response.json();
   } catch (error) {
     console.error(error);
+  } finally {
+    return _filterData(results);
   }
 }
 
-async function _filterData(response) {
-  let filteredResponse = {
-    pictureUrl: response.image.icon_url,
-    gameTitle: response.name,
-    description: response.deck,
-    platforms: response.platforms,
-  };
-  return filteredResponse;
+function _filterData(response) {
+  try {
+    let filteredResponse = {
+      pictureUrl: response.image,
+      gameTitle: response.name,
+      description: response.deck,
+      platforms: response.platforms,
+    };
+    console.log(filteredResponse);
+    return filteredResponse;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 }
