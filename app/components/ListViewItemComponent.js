@@ -3,29 +3,33 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
 
-import * as Constants from '../constants/Constants.js';
+import { placeholder } from '../constants/Constants.js';
+import { bgColor_picture, bgColor_description, bgColor_name, borderColor, bgColor_releaseDate } from '../constants/Colors.js';
 
 export function listViewItemLayout(imageUrl, name, description, platform) {
     return (
-        <View style={styles.resultsBoxStyle}>
-            <Image
-                style={styles.resultsPictureStyle}
-                source={(imageUrl == Constants.placeholder) ? require('../assets/game_placeholder.png') :
-                    {
-                        width: 100,
-                        height: 100,
-                        uri: imageUrl
-                    }}
-                resizeMethod='resize'
-                resizeMode='center'
-            />
-            <View style={styles.resultsDescriptionTextBoxStyle}>
-                <View style={styles.resultsNamePlatformStyle}>
-                    <Text style={styles.nameTextStyle} lineBreakMode=''>{name}</Text>
-                    <Text style={styles.platformTextStyle}>{platform}</Text>
+        <View style={styles.resultsBox}>
+            <View style={styles.imageBox}>
+                <Image
+                    style={styles.image}
+                    source={
+                        {
+                            width: 75,
+                            height: 75,
+                            uri: imageUrl
+                        }}
+                    defaultSource={placeholder}
+                    resizeMethod='resize'
+                    resizeMode='center'
+                />
+            </View>
+            <View style={styles.textBox}>
+                <View style={styles.nameReleaseDateBox}>
+                    <Text style={styles.name}>{name}</Text>
+                    <Text style={styles.releaseDate}>{platform}</Text>
                 </View>
-                <View style={styles.descriptionTextBoxStyle}>
-                    <Text allowFontScaling={true} numberOfLines={100}>{description}</Text>
+                <View style={styles.description}>
+                    <Text>{description}</Text>
                 </View>
             </View>
         </View>
@@ -33,54 +37,51 @@ export function listViewItemLayout(imageUrl, name, description, platform) {
 }
 
 const styles = StyleSheet.create({
-    resultsBoxStyle: {
-        justifyContent: 'flex-start',
+    resultsBox: {
+        flex: 1,
         flexDirection: 'row',
-        borderColor: 'black',
+        borderColor: borderColor,
         borderWidth: 1,
-        alignSelf: 'stretch',
+    },
+    imageBox: {
+        flex: 1,
+        padding: 5,
+        backgroundColor: bgColor_picture,
+    },
+    image: {
         flex: 1,
     },
-    resultsDescriptionTextBoxStyle: {
-        flex: 5,
-        alignContent: 'center',
-        backgroundColor: 'lightgreen'
-    },
-    resultsNamePlatformStyle: {
-        flexDirection: 'row',
-        alignItems: 'stretch',
-        fontSize: 12,
-        alignContent: 'space-between',
-        borderColor: 'black',
+    textBox: {
+        flex: 3,
+        borderColor: borderColor,
         borderLeftWidth: 1,
+    },
+    nameReleaseDateBox: {
+        flexDirection: 'row',
+        fontSize: 12,
+        borderColor: borderColor,
         borderBottomWidth: 1,
     },
-    nameTextStyle: {
+    name: {
         flex: 1,
         fontSize: 10,
         textAlign: 'center',
-        alignContent: 'space-between',
-        borderColor: 'black',
+        borderColor: borderColor,
         borderRightWidth: 1,
-        backgroundColor: 'pink'
+        backgroundColor: bgColor_name
     },
-    platformTextStyle: {
+    releaseDate: {
         flex: 3,
         fontSize: 10,
         textAlign: 'center',
-        alignSelf: 'center',
+        textAlignVertical: 'center',
+        alignSelf: 'stretch',
+        backgroundColor: bgColor_releaseDate,
     },
-    resultsPictureStyle: {
-        flex: 1,
-        alignSelf: 'center',
-        backgroundColor: 'lightyellow'
-    },
-    descriptionTextBoxStyle: {
-        flex: 1,
-        textAlign: 'center',
-        borderColor: 'black',
-        borderLeftWidth: 1,
-        alignContent: 'stretch',
-        backgroundColor: 'skyblue'
+    description: {
+        flex: 5,
+        alignContent: 'center',
+        alignItems: 'center',
+        backgroundColor: bgColor_description
     },
 });

@@ -4,7 +4,8 @@ import React, { useState } from 'react';
 import { ActivityIndicator, StyleSheet, View, TextInput, Button, FlatList, StatusBar } from 'react-native';
 
 import { listViewItemLayout } from '../components/ListViewItemComponent.js';
-import { placeholder, url } from '../constants/Constants.js';
+import { url } from '../constants/Constants.js';
+import { borderColor, bgColor_releaseDate } from '../constants/Colors.js';
 
 export default function App() {
   const [editText, setEditText] = useState(''),
@@ -12,8 +13,8 @@ export default function App() {
     [flatListData, setFlatListData] = useState([]);
 
   return (
-    <View style={styles.screenContainerStyle}>
-      <View style={styles.searchResultsContainerStyle}>
+    <View style={styles.screenBox}>
+      <View style={styles.searchResultsBox}>
         {isLoading ? <ActivityIndicator /> : (
           <FlatList
             data={flatListData}
@@ -24,51 +25,58 @@ export default function App() {
           />
         )}
       </View>
-      <View style={styles.searchViewContainerStyle}>
+      <View style={styles.searchBox}>
         <TextInput
-          style={styles.textInputStyle}
+          style={styles.searchInput}
           defaultValue={editText}
           placeholder='Search'
           onChangeText={text => setEditText(text)}
         />
-        <Button
-          title="Submit"
-          color="red"
-          onPress={() => {
-            setIsLoading(true);
-            fetch(url + editText)
-              .then((response) => response.json())
-              .then((body) => { return body.results })
-              .then((data) => setFlatListData(data))
-              .finally(() => setIsLoading(false))
-          }}
-        />
+        <View style={styles.searchButton}>
+          <Button
+            title="Submit"
+            color={bgColor_releaseDate}
+            onPress={() => {
+              setIsLoading(true);
+              fetch(url + editText)
+                .then((response) => response.json())
+                .then((body) => { return body.results })
+                .then((data) => setFlatListData(data))
+                .finally(() => setIsLoading(false))
+            }}
+          />
+        </View>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  screenContainerStyle: {
+  screenBox: {
     flex: 1,
-    margin: StatusBar.currentHeight || 0,
+    marginStart: 5,
+    marginEnd: 5,
+    marginBottom: 5,
+    marginTop: StatusBar.currentHeight,
   },
-  searchViewContainerStyle: {
-    flex: 1,
-    fontSize: 30,
-    flexDirection: 'row',
-    textAlignVertical: 'top',
-    alignItems: 'center',
-  },
-  textInputStyle: {
-    flex: 5,
-    textAlign: 'center',
-    borderColor: 'black',
-    flexWrap: 'wrap',
-    borderWidth: 0.5,
-  },
-  searchResultsContainerStyle: {
+  searchResultsBox: {
     flex: 16,
-    alignContent: 'space-between',
+    alignItems: 'stretch',
+  },
+  searchBox: {
+    flex: 1,
+    fontSize: 100,
+    flexDirection: 'row',
+  },
+  searchInput: {
+    flex: 4,
+    textAlign: 'center',
+    alignSelf: 'stretch',
+    borderColor: borderColor,
+    borderWidth: 1,
+  },
+  searchButton: {
+    flex: 1,
+    alignSelf: 'center',
   },
 });
