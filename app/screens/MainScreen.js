@@ -1,59 +1,26 @@
 'use-strict';
 
-import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, StyleSheet, View, TextInput, Button, FlatList, Text, StatusBar, Image, Dimensions } from 'react-native';
-import getResults from '../services/SearchService';
+import React, { useState } from 'react';
+import { ActivityIndicator, StyleSheet, View, TextInput, Button, FlatList, StatusBar } from 'react-native';
 
-const placeholder = '../screens/game_placeholder.png';
-const apiKey = '4aa162f5448bde1772c4778bd8d966811da0124c',
-  resources = 'game',
-  format = 'JSON',
-  limit = '',
-  url =
-    'https://www.giantbomb.com/api/search/?api_key=' +
-    apiKey +
-    '&resources=' +
-    resources +
-    '&format=' +
-    format +
-    '&limit=' +
-    limit +
-    '&query=';
-function _listViewItemLayout(imageUrl, name, description, platform) {
-  return (
-    <View style={styles.resultsBoxStyle}>
-      <Image style={styles.resultsPictureStyle} source=
-        {require(placeholder)}
-        loadingIndicatorSource={require(placeholder)}
-        resizeMethod='resize'
-        resizeMode='center'
-      />
-      <View style={styles.resultsDescriptionTextBoxStyle}>
-        <View style={styles.resultsNamePlatformStyle}>
-          <Text style={styles.nameTextStyle}>{name}</Text>
-          <Text style={styles.platformTextStyle}>{platform}</Text>
-        </View>
-        <Text>{description}</Text>
-      </View>
-    </View>
-  );
-}
+import { listViewItemLayout } from '../components/ListViewItemComponent.js';
+import { placeholder, url } from '../constants/Constants.js';
 
 export default function App() {
-  const listViewDataObject = { imageUrl: placeholder, name: "name", description: "description", platform: "platform", id: 1 };
   const [editText, setEditText] = useState(''),
-    [listViewData, setListViewData] = useState([listViewDataObject]),
-    [isLoading, setIsLoading] = useState(false);
+    [isLoading, setIsLoading] = useState(false),
+    [flatListData, setFlatListData] = useState([]);
 
   return (
     <View style={styles.screenContainerStyle}>
       <View style={styles.searchResultsContainerStyle}>
         {isLoading ? <ActivityIndicator /> : (
           <FlatList
-            data={listViewData}
+            data={flatListData}
+            keyExtractor={(index) => index.guid}
             renderItem={({ item }) => (
-              _listViewItemLayout(item.imageUrl, item.name, item.description, item.platform))}
-            keyExtractor={(item) => item.id}
+              listViewItemLayout(item.image.super_url, item.name, item.deck, "Release Date: " + item.original_release_date))}
+            initialNumToRender={100}
           />
         )}
       </View>
@@ -71,19 +38,8 @@ export default function App() {
             setIsLoading(true);
             fetch(url + editText)
               .then((response) => response.json())
-              .then((data) => {
-                let abc = listViewDataObject;
-                let def;
-                for (const obj of data.results) {
-                  abc.imageUrl = placeholder;
-                  abc.id = obj.guid;
-                  abc.name = obj.name;
-                  abc.description = obj.deck;
-                  abc.platform = "";
-                  def += abc;
-                }
-                setListViewData(def);
-              })
+              .then((body) => { return body.results })
+              .then((data) => setFlatListData(data))
               .finally(() => setIsLoading(false))
           }}
         />
@@ -102,7 +58,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     flexDirection: 'row',
     textAlignVertical: 'top',
-    alignContent: 'center',
     alignItems: 'center',
   },
   textInputStyle: {
@@ -114,35 +69,6 @@ const styles = StyleSheet.create({
   },
   searchResultsContainerStyle: {
     flex: 16,
-    justifyContent: 'center',
+    alignContent: 'space-between',
   },
-  resultsPictureStyle: {
-    flex: 1,
-  },
-  resultsBoxStyle: {
-    justifyContent: 'flex-end',
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 200,
-  },
-  resultsDescriptionTextBoxStyle: {
-    flex: 5,
-    backgroundColor: 'green',
-  },
-  resultsNamePlatformStyle: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    fontSize: 12,
-  },
-  nameTextStyle: {
-    flex: 1,
-    fontSize: 10,
-    backgroundColor: 'yellow',
-  },
-  platformTextStyle: {
-    flex: 3,
-    fontSize: 10,
-    alignContent: 'flex-end',
-    backgroundColor: 'red',
-  }
 });
