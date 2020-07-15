@@ -6,10 +6,10 @@ import { StyleSheet, View, Text, Image } from 'react-native';
 import { placeholder } from '../constants/Constants.js';
 import { bgColor_picture, bgColor_description, bgColor_name, borderColor, bgColor_releaseDate } from '../constants/Colors.js';
 
-export function listViewItemLayout(imageUrl, name, description, platform) {
+export function listViewItemLayout(imageUrl, name, description, releaseDate) {
     return (
         <View style={styles.resultsBox}>
-            <View style={styles.imageBox}>
+            <View style={styles.imageBox} testID='imageBox'>
                 <Image
                     style={styles.image}
                     source={
@@ -18,18 +18,18 @@ export function listViewItemLayout(imageUrl, name, description, platform) {
                             height: 75,
                             uri: imageUrl
                         }}
-                    defaultSource={placeholder}
+                    defaultSource={require(placeholder)}
                     resizeMethod='resize'
                     resizeMode='center'
                 />
             </View>
             <View style={styles.textBox}>
                 <View style={styles.nameReleaseDateBox}>
-                    <Text style={styles.name}>{name}</Text>
-                    <Text style={styles.releaseDate}>{platform}</Text>
+                    <Text style={styles.name} testID='name'>{name}</Text>
+                    <Text style={styles.releaseDate} testID='releaseDate'>{releaseDate}</Text>
                 </View>
-                <View style={styles.description}>
-                    <Text>{(description == null) || (description == '') || (description == undefined) ? 'No information available' : description}</Text>
+                <View style={styles.description} testID='descriptionBox'>
+                    <Text testID='description'>{(description == null) || (description == '') || (description == undefined) ? 'No information available' : description}</Text>
                 </View>
             </View>
         </View>

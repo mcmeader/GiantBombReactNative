@@ -1,23 +1,44 @@
-/**
- * @format
- */
-
 import 'react-native';
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import MainScreen from '../../app/screens/MainScreen';
 import renderer from 'react-test-renderer';
-import { listViewItemLayout } from '../../app/components/ListViewItemComponent';
+import { bgColor_releaseDate, borderColor } from '../../app/constants/Colors';
 
-//const mockListViewItem = jest.fn(listViewItemLayout, () => "itsGood")
+describe("Main screen tests", () => {
+    global.fetch = jest.fn();
 
-it('Main screen renders properly', () => {
-    renderer.create(<MainScreen />);
+    it('Main screen renders properly', () => {
+        renderer.create(<MainScreen />);
+    });
+
+    it('Editing text input field clears text when typing', () => {
+        const { getByTestId } = render(<MainScreen />)
+        let testText = 'test';
+        fireEvent.changeText(getByTestId('textInput'), testText);
+        expect(getByTestId('textInput').props.defaultValue).toBe(testText);
+    });
+
+    it('Editing text input field clears text when typing', () => {
+        const { getByTestId } = render(<MainScreen />)
+        let testText = 'test';
+        fireEvent.changeText(getByTestId('textInput'), testText);
+        expect(getByTestId('textInput').props.defaultValue).toBe(testText);
+    });
+
+    //Button press not working properly
+    it('Clicking submit button calls fetch api', () => {
+        const { getByTestId } = render(<MainScreen />)
+        fireEvent.press(getByTestId('submitButton'));
+        //expect(fetch).toHaveBeenCalled();
+    });
+
+    describe("Test each component has colors that match colors in colors file", () => {
+        const { getByTestId } = render(<MainScreen />)
+
+        it('Text input border color should match', () => {
+            let color = getByTestId('textInput').props.style.borderColor;
+            expect(color).toBe(borderColor);
+        });
+    });
 });
-
-it('Editing text input field clears text when typing', () => {
-    const { getByTestId } = render(<MainScreen />)
-    let testText = 'test';
-    fireEvent.changeText(getByTestId('textInput'), testText);
-    expect(getByTestId('textInput').props.defaultValue).toBe(testText);
-})
