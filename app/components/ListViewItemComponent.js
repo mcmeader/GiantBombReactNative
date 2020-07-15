@@ -29,7 +29,7 @@ export function listViewItemLayout(imageUrl, name, description, platform) {
                     <Text style={styles.releaseDate}>{platform}</Text>
                 </View>
                 <View style={styles.description}>
-                    <Text>{description}</Text>
+                    <Text>{(description == null) || (description == '') || (description == undefined) ? 'No information available' : description}</Text>
                 </View>
             </View>
         </View>

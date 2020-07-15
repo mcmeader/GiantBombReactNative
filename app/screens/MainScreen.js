@@ -7,7 +7,7 @@ import { listViewItemLayout } from '../components/ListViewItemComponent.js';
 import { url } from '../constants/Constants.js';
 import { borderColor, bgColor_releaseDate } from '../constants/Colors.js';
 
-export default function App() {
+export default function MainScreen() {
   const [editText, setEditText] = useState(''),
     [isLoading, setIsLoading] = useState(false),
     [flatListData, setFlatListData] = useState([]);
@@ -15,18 +15,18 @@ export default function App() {
   return (
     <View style={styles.screenBox}>
       <View style={styles.searchResultsBox}>
-        {isLoading ? <ActivityIndicator /> : (
+        {isLoading ? <ActivityIndicator style={styles.activityIndicator} /> : (
           <FlatList
             data={flatListData}
             keyExtractor={(index) => index.guid}
             renderItem={({ item }) => (
               listViewItemLayout(item.image.super_url, item.name, item.deck, "Release Date: " + item.original_release_date))}
-            initialNumToRender={100}
           />
         )}
       </View>
       <View style={styles.searchBox}>
         <TextInput
+          testID='textInput'
           style={styles.searchInput}
           defaultValue={editText}
           placeholder='Search'
@@ -34,16 +34,17 @@ export default function App() {
         />
         <View style={styles.searchButton}>
           <Button
+            testID="submitButton"
             title="Submit"
             color={bgColor_releaseDate}
             onPress={() => {
               setIsLoading(true);
               fetch(url + editText)
-                .then((response) => response.json())
-                .then((body) => { return body.results })
-                .then((data) => setFlatListData(data))
+                .then(response => response.json())
+                .then(json => json.results)
+                .then(results => setFlatListData(results))
                 .finally(() => setIsLoading(false))
-                .catch((error) => console.log(error))
+                .catch(error => console.log(error))
             }}
           />
         </View>
@@ -53,6 +54,14 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  activityIndicator: {
+    flex: 1,
+    marginStart: 5,
+    marginEnd: 5,
+    marginBottom: 5,
+    alignContent: 'center',
+    marginTop: StatusBar.currentHeight,
+  },
   screenBox: {
     flex: 1,
     marginStart: 5,
