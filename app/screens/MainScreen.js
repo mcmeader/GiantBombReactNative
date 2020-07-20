@@ -54,19 +54,19 @@ export default function MainScreen() {
 }
 
 const styles = StyleSheet.create({
+  screenBox: {
+    flex: 1,
+    marginStart: 5,
+    marginEnd: 5,
+    marginBottom: 5,
+    marginTop: StatusBar.currentHeight,
+  },
   activityIndicator: {
     flex: 1,
     marginStart: 5,
     marginEnd: 5,
     marginBottom: 5,
     alignContent: 'center',
-    marginTop: StatusBar.currentHeight,
-  },
-  screenBox: {
-    flex: 1,
-    marginStart: 5,
-    marginEnd: 5,
-    marginBottom: 5,
     marginTop: StatusBar.currentHeight,
   },
   searchResultsBox: {

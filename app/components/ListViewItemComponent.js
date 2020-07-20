@@ -18,7 +18,7 @@ export function listViewItemLayout(imageUrl, name, description, releaseDate) {
                             height: 75,
                             uri: imageUrl
                         }}
-                    defaultSource={require(placeholder)}
+                    defaultSource={placeholder}
                     resizeMethod='resize'
                     resizeMode='center'
                 />

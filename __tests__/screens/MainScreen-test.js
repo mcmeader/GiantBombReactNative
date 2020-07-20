@@ -3,11 +3,9 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import MainScreen from '../../app/screens/MainScreen';
 import renderer from 'react-test-renderer';
-import { bgColor_releaseDate, borderColor } from '../../app/constants/Colors';
+import { borderColor } from '../../app/constants/Colors';
 
 describe("Main screen tests", () => {
-    global.fetch = jest.fn();
-
     it('Main screen renders properly', () => {
         renderer.create(<MainScreen />);
     });
