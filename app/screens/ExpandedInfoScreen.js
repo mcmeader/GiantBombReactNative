@@ -3,7 +3,6 @@
 import React from 'react';
 import { StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 
-import { borderColor } from '../constants/Constants.js';
 import { expandedInfoDataComponent } from '../components/ExpandedInfoDataComponent.js'
 
 function _expectedReleaseDate(objectData) {
@@ -13,28 +12,8 @@ function _expectedReleaseDate(objectData) {
     return day + "/" + month + "/" + year;
 }
 
-export default function ExpandedInfoScreen() {
-    const objectData = {
-        name: "Mario & Luigi: Dream Team", aliases: "Mario & Luigi RPG 4: Dream Adventure\r\nマリオ&ルイージRPG4 ドリームアドベンチャー\r\nMario & Luigi: Dream Team Bros.\r\nMario and Luigi: Dream Team",
-        platforms: [{
-            "api_detail_url": "https://www.giantbomb.com/api/platform/3045-117/",
-            "id": 117,
-            "name": "Nintendo 3DS",
-            "site_detail_url": "https://www.giantbomb.com/nintendo-3ds/3045-117/",
-            "abbreviation": "3DS"
-        },
-        {
-            "api_detail_url": "https://www.giantbomb.com/api/platform/3045-138/",
-            "id": 138,
-            "name": "Nintendo 3DS eShop",
-            "site_detail_url": "https://www.giantbomb.com/nintendo-3ds-eshop/3045-138/",
-            "abbreviation": "3DSE"
-        }],
-        deck: "The fourth entry in the Mario and Luigi RPG series has Mario traversing dreams within Luigi's mind. Players will have to interact with Luigi on the bottom screen to provoke certain events within his dreams.",
-        original_release_date: null, expected_release_day: "1",
-        expected_release_month: "2", expected_release_year: "1900", date_last_updated: "10/01/1900", image: { super_url: "https://giantbomb1.cbsistatic.com/uploads/scale_large/8/87790/2995038-box_maldt.png" }
-    }
-
+export default function ExpandedInfoScreen(objectData) {
+    objectData = objectData.route.params.objectData;
     return (
         <View style={styles.screenBox}>
             <View style={styles.imageBox}>

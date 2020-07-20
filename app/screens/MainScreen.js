@@ -1,13 +1,14 @@
 'use-strict';
 
 import React, { useState } from 'react';
-import { ActivityIndicator, StyleSheet, View, TextInput, Button, FlatList, StatusBar } from 'react-native';
+import { ActivityIndicator, StyleSheet, View, TextInput, Button, FlatList, StatusBar, Pressable, Text } from 'react-native';
 
 import { listViewItemLayout } from '../components/ListViewItemComponent.js';
 import { url } from '../constants/Constants.js';
 import { borderColor, bgColor_releaseDate } from '../constants/Colors.js';
+import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
 
-export default function MainScreen() {
+export default function MainScreen({ navigation }) {
   const [editText, setEditText] = useState(''),
     [isLoading, setIsLoading] = useState(false),
     [flatListData, setFlatListData] = useState([]);
@@ -20,7 +21,10 @@ export default function MainScreen() {
             data={flatListData}
             keyExtractor={(index) => index.guid}
             renderItem={({ item }) => (
-              listViewItemLayout(item.image.super_url, item.name, item.deck, "Release Date: " + item.original_release_date))}
+              <TouchableHighlight onPress={() => navigation.navigate('ExpandedInfo', { "objectData": item })}>
+                {listViewItemLayout(item.image.super_url, item.name, item.deck, "Release Date: " + item.original_release_date)}
+              </TouchableHighlight>
+            )}
           />
         )}
       </View>
