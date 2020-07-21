@@ -1,24 +1,24 @@
-import 'react-native';
-import renderer from 'react-test-renderer';
+'use-strict';
+
+import React from 'react';
 import { render } from '@testing-library/react-native';
 
 import { listViewItemLayout } from '../../app/components/ListViewItemComponent.js';
-import { placeholder } from '../../app/constants/Constants.js';
 import { bgColor_picture, bgColor_releaseDate, bgColor_description, bgColor_name, borderColor } from '../../app/constants/Colors';
 
 describe("Component Tests for ListViewItem", () => {
     it('Component renders properly', () => {
-        renderer.create(listViewItemLayout(placeholder, "abc", "abc", "abc"));
+        render(<>{listViewItemLayout("test", "test", "test", "test")}</>);
     });
 
     it('If description is missing, it is filled in automatically', () => {
-        const { getByTestId } = render(listViewItemLayout(placeholder, "abc", null, "def"))
+        const { getByTestId } = render(<>{listViewItemLayout("test", "test", null, "test")}</>);
         let descriptionValue = getByTestId('description').props.children;
         expect(descriptionValue).toBe('No information available');
     });
 
     describe('Test each component has colors that match colors in colors file', () => {
-        const { getByTestId } = render(listViewItemLayout(placeholder, "abc", "abc", "abc"))
+        const { getByTestId } = render(<>{listViewItemLayout("test", "test", "test", "test")}</>);
 
         it('Image box colors match', () => {
             var color = getByTestId('imageBox').props.style.backgroundColor;
@@ -41,5 +41,5 @@ describe("Component Tests for ListViewItem", () => {
             var color = getByTestId('descriptionBox').props.style.backgroundColor;
             expect(color).toBe(bgColor_description);
         });
-    })
+    });
 });

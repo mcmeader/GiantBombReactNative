@@ -12,7 +12,7 @@ export function expandedInfoDataComponent(label, data) {
                 {label}
             </Text>
             <Text style={styles.data}>
-                {data}
+                {(data == null || data == undefined || data == '') ? "None" : data}
             </Text>
         </View>);
 }

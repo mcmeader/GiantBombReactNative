@@ -12,8 +12,8 @@ function _expectedReleaseDate(objectData) {
     return day + "/" + month + "/" + year;
 }
 
-export default function ExpandedInfoScreen(objectData) {
-    objectData = objectData.route.params.objectData;
+export default function ExpandedInfoScreen({ route }) {
+    let objectData = route.params.objectData;
     return (
         <View style={styles.screenBox}>
             <View style={styles.imageBox}>
@@ -37,12 +37,11 @@ export default function ExpandedInfoScreen(objectData) {
                         <Text style={styles.name}>
                             {objectData.name}
                         </Text>
-
                     </View>
                 </View>
                 <View style={styles.dataTable}>
                     <Text style={styles.description}>
-                        {objectData.deck}
+                        {(objectData.deck == null || objectData.deck == undefined || objectData.deck == '') ? "No description available" : objectData.deck}
                     </Text>
                     {expandedInfoDataComponent("Aliases:", objectData.aliases)}
                     {expandedInfoDataComponent("Platforms:", objectData.platforms.map(platform => platform.name + '\n'))}

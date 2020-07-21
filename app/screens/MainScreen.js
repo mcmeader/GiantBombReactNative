@@ -6,7 +6,7 @@ import { ActivityIndicator, StyleSheet, View, TextInput, Button, FlatList, Statu
 import { listViewItemLayout } from '../components/ListViewItemComponent.js';
 import { url } from '../constants/Constants.js';
 import { borderColor, bgColor_releaseDate } from '../constants/Colors.js';
-import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 
 export default function MainScreen({ navigation }) {
   const [editText, setEditText] = useState(''),
