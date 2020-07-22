@@ -6,6 +6,8 @@ import { render, fireEvent } from '@testing-library/react-native';
 import MainScreen from '../../app/screens/MainScreen';
 import { borderColor } from '../../app/constants/Colors';
 
+global.fetch = jest.fn(require('node-fetch'));
+
 describe("Main screen tests", () => {
     it('Main screen renders properly', () => {
         render(<MainScreen />);
@@ -25,11 +27,10 @@ describe("Main screen tests", () => {
         expect(getByTestId('textInput').props.defaultValue).toBe(testText);
     });
 
-    //Button press not working properly
     it('Clicking submit button calls fetch api', () => {
-        // const { getByTestId } = render(<MainScreen />)
-        // fireEvent.press(getByTestId('submitButton'));
-        //expect(fetch).toHaveBeenCalled();
+        const { getByText } = render(<MainScreen />)
+        fireEvent.press(getByText('Submit'));
+        expect(fetch).toHaveBeenCalled();
     });
 
     describe("Test each component has colors that match colors in colors file", () => {
