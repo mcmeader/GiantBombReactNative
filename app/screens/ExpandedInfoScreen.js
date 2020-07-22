@@ -6,10 +6,25 @@ import { StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { expandedInfoDataComponent } from '../components/ExpandedInfoDataComponent.js'
 
 function _expectedReleaseDate(objectData) {
-    let day = objectData.expected_release_day;
-    let month = objectData.expected_release_month;
-    let year = objectData.expected_release_year;
-    return day + "/" + month + "/" + year;
+    let day = (objectData.expected_release_day == null ||
+        objectData.expected_release_day == undefined ||
+        objectData.expected_release_day == '') ? '' : objectData.expected_release_day + "/";
+    let month = (objectData.expected_release_month == null ||
+        objectData.expected_release_month == undefined ||
+        objectData.expected_release_month == '') ? '' : objectData.expected_release_month + "/";
+    let year = (objectData.expected_release_year == null ||
+        objectData.expected_release_year == undefined ||
+        objectData.expected_release_year == '') ? '' : objectData.expected_release_year;
+    return (month + day + year == '') ? "Unknown" : month + day + year;
+}
+
+function _convertDate(date) {
+    var datePart = date.match(/\d+/g),
+        year = datePart[0],
+        month = datePart[2],
+        day = datePart[1];
+
+    return day + '/' + month + '/' + year;
 }
 
 export default function ExpandedInfoScreen({ route }) {
@@ -44,12 +59,12 @@ export default function ExpandedInfoScreen({ route }) {
                         {(objectData.deck == null || objectData.deck == undefined || objectData.deck == '') ? "No description available" : objectData.deck}
                     </Text>
                     {expandedInfoDataComponent("Aliases:", objectData.aliases)}
-                    {expandedInfoDataComponent("Platforms:", objectData.platforms.map(platform => platform.name + '\n'))}
-                    {expandedInfoDataComponent("Release Date:", (objectData.original_release_date === null) ? _expectedReleaseDate(objectData) : objectData.original_release_date)}
+                    {expandedInfoDataComponent("Platforms:", (objectData.platforms == null || objectData.platforms == undefined) ? 'None' : objectData.platforms.map(platform => platform.name + '\n'))}
+                    {expandedInfoDataComponent("Release Date:", (objectData.original_release_date === null) ? _expectedReleaseDate(objectData) : _convertDate(objectData.original_release_date))}
                 </View>
                 <View style={styles.lastUpdated}>
                     <Text style={StyleSheet.create({ fontSize: 10, })}>
-                        Last Updated: {objectData.date_last_updated}
+                        Last Updated: {_convertDate(objectData.date_last_updated)}
                     </Text>
                 </View>
             </View>
